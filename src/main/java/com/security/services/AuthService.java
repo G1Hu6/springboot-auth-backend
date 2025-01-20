@@ -27,7 +27,6 @@ public class AuthService {
     private final JWTService jwtService;
     private final UserRepository userRepository;
     private final UserService userService;
-    private final SessionService sessionService;
 
     public UserDto signUpUser(SignUpDto signUpDto){
 
@@ -52,18 +51,12 @@ public class AuthService {
         String accessToken = jwtService.generateAccessToken(userEntity);
         String refreshToken = jwtService.generateRefreshToken(userEntity);
 
-        // Generate new session if limits of session is not exceeded
-        sessionService.generateNewSession(userEntity, refreshToken);
-
         return new LoginResponseDto(userEntity.getId(), accessToken, refreshToken);
     }
 
     public LoginResponseDto refresh(String refreshToken){
         Long userId = jwtService.getUserIdFromToken(refreshToken);
         UserEntity user = userService.getUserById(userId);
-
-        // Session is valid then generate access token
-        sessionService.validateSession(refreshToken);
 
         // Generate new access token
         String newAccessToken = jwtService.generateAccessToken(user);
