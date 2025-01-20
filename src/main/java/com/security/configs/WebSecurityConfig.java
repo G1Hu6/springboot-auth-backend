@@ -44,7 +44,7 @@ public class WebSecurityConfig {
                                 //.anyRequest().authenticated()
                                  .requestMatchers(PUBLIC_ROUTES).permitAll()
                                 //.requestMatchers("/post/**").authenticated()
-                                 .requestMatchers(HttpMethod.GET ,"/posts/**").permitAll()
+                                 .requestMatchers(HttpMethod.GET ,"/posts/**").authenticated()
                                  .requestMatchers(HttpMethod.POST,"/posts/**").hasAnyRole(CREATOR.name(), USER_CREATE.name(), POST_CREATE.name())
                                  .requestMatchers(HttpMethod.PUT,"/posts/**").hasAnyRole(CREATOR.name(), USER_UPDATE.name(), POST_CREATE.name())
                                  .requestMatchers(HttpMethod.DELETE,"/posts/**").hasAnyRole(CREATOR.name(), USER_DELETE.name(), POST_DELETE.name())

@@ -4,6 +4,7 @@ import com.security.entities.UserEntity;
 import com.security.exceptions.ResourceNotFoundException;
 import com.security.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -22,7 +23,7 @@ public class UserService implements UserDetailsService{
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         return userRepository.findByEmail(username)
-                .orElseThrow(() -> new ResourceNotFoundException("User not found with username as : " + username));
+                .orElseThrow(() -> new BadCredentialsException("User not found with username as : " + username));
     }
 
     public UserEntity getUserById(Long userId) {

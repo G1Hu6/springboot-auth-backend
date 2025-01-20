@@ -1,5 +1,6 @@
 package com.security.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.security.entities.UserEntity;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -18,5 +19,6 @@ public class PostDto {
 
     private String description;
 
+    @JsonIgnore
     private UserEntity author;
 }

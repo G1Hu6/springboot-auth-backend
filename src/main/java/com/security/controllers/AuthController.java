@@ -43,7 +43,7 @@ public class AuthController {
         // Adding security and http-only access
         cookie.setHttpOnly(true);
         // Security is set only when we running in production mode
-        cookie.setSecure("production".equals(appEnv));
+        //cookie.setSecure("production".equals(appEnv));
         response.addCookie(cookie);
 
         return ResponseEntity.ok(loginResponse);

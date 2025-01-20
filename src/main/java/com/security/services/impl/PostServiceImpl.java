@@ -33,8 +33,8 @@ public class PostServiceImpl implements PostService {
     @Override
     public PostDto getPostById(Long id) {
         // Logging current user with JWT
-//        UserEntity user = (UserEntity) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-//        log.info("Current User : {}", user);
+        UserEntity user = (UserEntity) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        log.info("Current User : {}", user);
         return modelMapper.map(postRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Post not found with id : " + id)), PostDto.class);
     }
