@@ -28,7 +28,7 @@ public class SessionService {
             loggedSessions.sort(Comparator.comparing(SessionEntity::getLastUsedAt));
             log.info("Logged Sessions : {}",loggedSessions);
 
-            SessionEntity lastRecentlyUsedSession = loggedSessions.getFirst();
+            SessionEntity lastRecentlyUsedSession = loggedSessions.get(0);
             sessionRepository.delete(lastRecentlyUsedSession);
         }
 
