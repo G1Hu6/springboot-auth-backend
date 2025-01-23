@@ -14,22 +14,22 @@ import java.nio.file.AccessDeniedException;
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(ResourceNotFoundException.class)
-    public ResponseEntity<ApiError> handleResourceNotFoundException(ResourceNotFoundException exception){
+    public ResponseEntity<ApiResponse<?>> handleResourceNotFoundException(ResourceNotFoundException exception){
         ApiError apiError = ApiError.builder()
                 .httpStatus(HttpStatus.NOT_FOUND)
                 .message(exception.getMessage())
                 .build();
-        return new ResponseEntity<>(apiError,HttpStatus.NOT_FOUND);
+        return sendApiResponse(apiError);
     }
 
     // Handle AuthenticationException
     @ExceptionHandler(AuthenticationException.class)
-    public ResponseEntity<ApiError> handleAuthenticationException(AuthenticationException exception){
+    public ResponseEntity<ApiResponse<?>> handleAuthenticationException(AuthenticationException exception){
         ApiError apiError = ApiError.builder()
                 .httpStatus(HttpStatus.UNAUTHORIZED)
                 .message(exception.getLocalizedMessage())
                 .build();
-        return new ResponseEntity<>(apiError,HttpStatus.UNAUTHORIZED);
+        return sendApiResponse(apiError);
     }
 
     // We can not handle JwtException(ExpiredJwtException and all child) using GlobalExceptionHandler
@@ -38,21 +38,25 @@ public class GlobalExceptionHandler {
 
     //Handle JwtException
     @ExceptionHandler(JwtException.class)
-    public ResponseEntity<ApiError> handleJwtException(JwtException exception){
+    public ResponseEntity<ApiResponse<?>> handleJwtException(JwtException exception){
         ApiError apiError = ApiError.builder()
                 .httpStatus(HttpStatus.UNAUTHORIZED)
                 .message(exception.getLocalizedMessage())
                 .build();
-        return new ResponseEntity<>(apiError,HttpStatus.UNAUTHORIZED);
+        return sendApiResponse(apiError);
     }
 
     @ExceptionHandler(AccessDeniedException.class)
-    public ResponseEntity<ApiError> handleAccessDeniedException(AccessDeniedException exception){
+    public ResponseEntity<ApiResponse<?>> handleAccessDeniedException(AccessDeniedException exception){
         ApiError apiError = ApiError.builder()
                 .httpStatus(HttpStatus.FORBIDDEN)
                 .message(exception.getLocalizedMessage())
                 .build();
-        return new ResponseEntity<>(apiError,HttpStatus.FORBIDDEN);
+        return sendApiResponse(apiError);
+    }
+
+    private ResponseEntity<ApiResponse<?>> sendApiResponse(ApiError apiError) {
+        return new ResponseEntity<>(new ApiResponse<>(apiError), apiError.getHttpStatus());
     }
 
 }
